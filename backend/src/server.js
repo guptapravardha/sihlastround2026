@@ -1,8 +1,16 @@
 import app from "./app.js";
-import { env, isGeminiConfigured, isBhashiniConfigured, isDbConfigured, isJwtConfigured } from "./config/env.js";
+import {
+  env,
+  isGeminiConfigured,
+  isBhashiniConfigured,
+  isDbConfigured,
+  isJwtConfigured
+} from "./config/env.js";
 
-app.listen(env.port, () => {
-  console.log(`\nGram-Pragati AI backend running on http://localhost:${env.port}`);
+const PORT = process.env.PORT || env.port || 5000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`\nGram-Pragati AI backend running on port ${PORT}`);
   console.log(`  GET  /api/health`);
   console.log(`  POST /api/ai/chat`);
   console.log(`  POST /api/ai/voice`);
@@ -15,6 +23,6 @@ app.listen(env.port, () => {
   console.log(`  /api/financial-records (CRUD, /summary)\n`);
   console.log(`Gemini:   ${isGeminiConfigured() ? "configured" : "NOT configured (set GEMINI_API_KEY)"}`);
   console.log(`Bhashini: ${isBhashiniConfigured() ? "configured" : "NOT configured (voice will use browser fallback)"}`);
-  console.log(`Database: ${isDbConfigured() ? "configured" : "NOT configured (set DATABASE_URL, then `npm run migrate`)"}`);
+  console.log(`Database: ${isDbConfigured() ? "configured" : "NOT configured (set DATABASE_URL, then npm run migrate)"}`);
   console.log(`JWT:      ${isJwtConfigured() ? "configured" : "NOT configured (using ephemeral dev secret)"}\n`);
 });
